@@ -1,11 +1,16 @@
 import sqlite3
+import logging
 
 from flask import Flask, jsonify, json, render_template, request, url_for, redirect, flash
 from werkzeug.exceptions import abort
 
+# configure logging
+logging.basicConfig(format='[%(levelname)s:%(asctime)s:%(name)s] %(message)s', level=logging.DEBUG)
+
 # Function to get a database connection.
 # This function connects to database with the name `database.db`
 def get_db_connection():
+    app.connection_counter += 1
     connection = sqlite3.connect('database.db')
     connection.row_factory = sqlite3.Row
     return connection
@@ -20,7 +25,10 @@ def get_post(post_id):
 
 # Define the Flask application
 app = Flask(__name__)
-app.config['SECRET_KEY'] = 'your secret key'
+app.config['SECRET_KEY'] = 'afsMWYQJ6B77z7QDZULB'
+
+# attach a counter variable to the flask app
+app.connection_counter = 0
 
 # Define the main route of the web application 
 @app.route('/')
@@ -36,13 +44,16 @@ def index():
 def post(post_id):
     post = get_post(post_id)
     if post is None:
-      return render_template('404.html'), 404
+        logging.info(f'Article with ID {post_id} not found')
+        return render_template('404.html'), 404
     else:
-      return render_template('post.html', post=post)
+        logging.info(f'Article "{post[2]}" retrieved!')
+        return render_template('post.html', post=post)
 
 # Define the About Us page
 @app.route('/about')
 def about():
+    logging.info(f'About Us page retrieved!')
     return render_template('about.html')
 
 # Define the post creation functionality 
@@ -60,11 +71,30 @@ def create():
                          (title, content))
             connection.commit()
             connection.close()
-
+            logging.info(f'Article "{title}" created')
             return redirect(url_for('index'))
 
     return render_template('create.html')
 
+# Define healthcheck endpoint - hardcoded JSON response
+@app.route('/healthz')
+def healthcheck():
+    # Return hard coded JSON with http status 200
+    return jsonify({'result': 'OK - healty'})
+
+# Define metrics endpoint returning the number of posts and db connections
+@app.route('/metrics')
+def get_metrics():
+    connection = get_db_connection()
+    post_count = connection.execute('SELECT COUNT(*) FROM posts').fetchone()[0]
+    return jsonify({
+        'db_connection_count': app.connection_counter,
+        'post_count' : post_count,
+    })
+
 # start the application on port 3111
 if __name__ == "__main__":
-   app.run(host='0.0.0.0', port='3111')
+    # intialize database connection counter
+    app.connection_counter = 0
+    # start the application
+    app.run(host='0.0.0.0', port='3111')
