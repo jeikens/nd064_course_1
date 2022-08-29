@@ -5,3 +5,4 @@
 __pycache__/
 .vagrant/
 project/techtrends/database.db
+project/.Dockerfile.swp

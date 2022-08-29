@@ -1,11 +1,53 @@
 ## Docker commands used to build the application 
-# TODO: insert the docker build command
+# insert the docker build command
+# executed in folder /project/
+docker build -t techtrends -f Dockerfile .
 
 ## Docker commands used to run the application
-# TODO: insert the docker run command
+# insert the docker run command
+docker run -d -p 7111:3111 techtrends
 
 ## Docker commands used to get the application logs
-# TODO: insert the docker logs command
+# insert the docker logs command
+# Container ID 1c3c3f74b735 retrieved with 'docker ps'
+docker logs 1c3c3f74b735
 
 ## Logs from the container running the TechTrends application
-# TODO: paste logs from the Docker container 
+# paste logs from the Docker container 
+ * Serving Flask app 'app' (lazy loading)
+ * Environment: production
+   WARNING: This is a development server. Do not use it in a production deployment.
+   Use a production WSGI server instead.
+ * Debug mode: off
+[WARNING:2022-08-29 20:02:49,249:werkzeug]  * Running on all addresses.
+   WARNING: This is a development server. Do not use it in a production deployment.
+[INFO:2022-08-29 20:02:49,249:werkzeug]  * Running on http://172.17.0.2:3111/ (Press CTRL+C to quit)
+[INFO:2022-08-29 20:02:57,820:werkzeug] 172.17.0.1 - - [29/Aug/2022 20:02:57] "GET / HTTP/1.1" 200 -
+[INFO:2022-08-29 20:02:57,832:werkzeug] 172.17.0.1 - - [29/Aug/2022 20:02:57] "GET /static/css/main.css HTTP/1.1" 304 -
+[INFO:2022-08-29 20:02:59,194:root] Article "2020 CNCF Annual Report" retrieved!
+[INFO:2022-08-29 20:02:59,197:werkzeug] 172.17.0.1 - - [29/Aug/2022 20:02:59] "GET /1 HTTP/1.1" 200 -
+[INFO:2022-08-29 20:02:59,211:werkzeug] 172.17.0.1 - - [29/Aug/2022 20:02:59] "GET /static/css/main.css HTTP/1.1" 304 -
+[INFO:2022-08-29 20:03:00,344:werkzeug] 172.17.0.1 - - [29/Aug/2022 20:03:00] "GET / HTTP/1.1" 200 -
+[INFO:2022-08-29 20:03:00,362:werkzeug] 172.17.0.1 - - [29/Aug/2022 20:03:00] "GET /static/css/main.css HTTP/1.1" 304 -
+[INFO:2022-08-29 20:03:03,597:root] About Us page retrieved!
+[INFO:2022-08-29 20:03:03,599:werkzeug] 172.17.0.1 - - [29/Aug/2022 20:03:03] "GET /about HTTP/1.1" 200 -
+[INFO:2022-08-29 20:03:03,615:werkzeug] 172.17.0.1 - - [29/Aug/2022 20:03:03] "GET /static/css/main.css HTTP/1.1" 304 -
+[INFO:2022-08-29 20:03:04,404:werkzeug] 172.17.0.1 - - [29/Aug/2022 20:03:04] "GET / HTTP/1.1" 200 -
+[INFO:2022-08-29 20:03:04,418:werkzeug] 172.17.0.1 - - [29/Aug/2022 20:03:04] "GET /static/css/main.css HTTP/1.1" 304 -
+[INFO:2022-08-29 20:03:05,037:root] Article "2020 CNCF Annual Report" retrieved!
+[INFO:2022-08-29 20:03:05,038:werkzeug] 172.17.0.1 - - [29/Aug/2022 20:03:05] "GET /1 HTTP/1.1" 200 -
+[INFO:2022-08-29 20:03:05,052:werkzeug] 172.17.0.1 - - [29/Aug/2022 20:03:05] "GET /static/css/main.css HTTP/1.1" 304 -
+[INFO:2022-08-29 20:03:07,390:root] Article with ID 100 not found
+[INFO:2022-08-29 20:03:07,393:werkzeug] 172.17.0.1 - - [29/Aug/2022 20:03:07] "GET /100 HTTP/1.1" 404 -
+[INFO:2022-08-29 20:03:07,406:werkzeug] 172.17.0.1 - - [29/Aug/2022 20:03:07] "GET /static/css/main.css HTTP/1.1" 304 -
+[INFO:2022-08-29 20:03:08,898:werkzeug] 172.17.0.1 - - [29/Aug/2022 20:03:08] "GET / HTTP/1.1" 200 -
+[INFO:2022-08-29 20:03:08,912:werkzeug] 172.17.0.1 - - [29/Aug/2022 20:03:08] "GET /static/css/main.css HTTP/1.1" 304 -
+[INFO:2022-08-29 20:03:10,002:werkzeug] 172.17.0.1 - - [29/Aug/2022 20:03:10] "GET /create HTTP/1.1" 200 -
+[INFO:2022-08-29 20:03:10,018:werkzeug] 172.17.0.1 - - [29/Aug/2022 20:03:10] "GET /static/css/main.css HTTP/1.1" 304 -
+[INFO:2022-08-29 20:03:22,859:root] Article "new post title" created
+[INFO:2022-08-29 20:03:22,859:werkzeug] 172.17.0.1 - - [29/Aug/2022 20:03:22] "POST /create HTTP/1.1" 302 -
+[INFO:2022-08-29 20:03:22,863:werkzeug] 172.17.0.1 - - [29/Aug/2022 20:03:22] "GET / HTTP/1.1" 200 -
+[INFO:2022-08-29 20:03:22,879:werkzeug] 172.17.0.1 - - [29/Aug/2022 20:03:22] "GET /static/css/main.css HTTP/1.1" 304 -
+[INFO:2022-08-29 20:03:24,146:werkzeug] 172.17.0.1 - - [29/Aug/2022 20:03:24] "GET / HTTP/1.1" 200 -
+[INFO:2022-08-29 20:03:24,161:werkzeug] 172.17.0.1 - - [29/Aug/2022 20:03:24] "GET /static/css/main.css HTTP/1.1" 304 -
+
