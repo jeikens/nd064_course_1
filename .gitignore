@@ -4,4 +4,4 @@
 .myvenv/
 __pycache__/
 .vagrant/
-project/techtrends/app.py
+project/techtrends/database.db
