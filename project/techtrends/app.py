@@ -3,6 +3,8 @@ import logging
 
 from flask import Flask, jsonify, json, render_template, request, url_for, redirect, flash
 from werkzeug.exceptions import abort
+from os.path import exists
+from os import access, W_OK
 
 # configure logging
 logging.basicConfig(format='[%(levelname)s:%(asctime)s:%(name)s] %(message)s', level=logging.DEBUG)
@@ -76,10 +78,23 @@ def create():
 
     return render_template('create.html')
 
-# Define healthcheck endpoint - hardcoded JSON response
+# Define healthcheck endpoint
 @app.route('/healthz')
 def healthcheck():
-    # Return hard coded JSON with http status 200
+    # check if database file exists
+    if not exists('database.db'):
+        logging.error('database file is missing')
+        return (jsonify({'result': 'ERROR - unhealty', 'message': 'database file missing'}), 500)
+    # check if database is writable
+    if not access('database.db', W_OK):
+        logging.error('no write access to database file')
+        return (jsonify({'result': 'ERROR - unhealty', 'message': 'database file not writable'}), 500)
+    # try access to the db
+    connection = get_db_connection()
+    if connection.execute('SELECT * FROM sqlite_schema where type = "table" and tbl_name = "posts"').fetchone() is None:
+        logging.error('database table "posts" is missing')
+        return (jsonify({'result': 'ERROR - unhealty', 'message': 'database corrupt'}), 500)
+    # Return JSON with http status 200
     return jsonify({'result': 'OK - healty'})
 
 # Define metrics endpoint returning the number of posts and db connections
@@ -94,7 +109,4 @@ def get_metrics():
 
 # start the application on port 3111
 if __name__ == "__main__":
-    # intialize database connection counter
-    app.connection_counter = 0
-    # start the application
     app.run(host='0.0.0.0', port='3111')
