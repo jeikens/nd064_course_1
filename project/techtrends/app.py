@@ -1,3 +1,4 @@
+from cgi import test
 import sqlite3
 import logging
 
@@ -106,6 +107,29 @@ def get_metrics():
         'db_connection_count': app.connection_counter,
         'post_count' : post_count,
     })
+
+def test_health():
+    with app.test_client() as test_client:
+        resp = test_client.get('/healthz')
+        assert resp.status_code == 200
+        metric = resp.get_json()
+        assert metric is not None
+        assert metric['result'] == 'OK - healty'
+
+def test_metrics():
+    with app.test_client() as test_client:
+        resp = test_client.get('/metrics')
+        assert resp.status_code == 200
+        metric = resp.get_json()
+        assert metric is not None
+        assert metric['post_count'] > 0
+        db_connection_count = metric['db_connection_count']
+        # query another time to see if the db counter increases
+        resp = test_client.get('/metrics')
+        assert resp.status_code == 200
+        metric = resp.get_json()
+        assert metric is not None
+        assert metric['db_connection_count'] > db_connection_count
 
 # start the application on port 3111
 if __name__ == "__main__":
