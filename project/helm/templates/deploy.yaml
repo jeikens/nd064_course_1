@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: techtrends
+  name: techtrends 
+  namespace: {{ .Values.namespace.name }}
+spec:
+  replicas: {{ .Values.deploy.replicaCount }}
+  selector:
+    matchLabels:
+      app: techtrends
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: techtrends
+    spec:
+      containers:
+      - image: jeikens/{{ .Values.image.repository }}:{{ .Values.image.tag }}
+        imagePullPolicy: {{ .Values.image.pullPolicy }}
+        name: techtrends
+        ports:
+        - containerPort: {{ .Values.image.containerPort }}
+          protocol: TCP
+        resources:
+          requests:
+            cpu: {{ .Values.image.resources.requests.cpu }}
+            memory: {{ .Values.image.resources.requests.mem }}
+          requests:
+            cpu: {{ .Values.image.resources.limits.cpu }}
+            memory: {{ .Values.image.resources.limits.mem }}
+        livenessProbe:
+          httpGet:
+            path: {{ .Values.image.livenessProbe.path }}
+            port: {{ .Values.image.containerPort }}
+        readinessProbe:
+          httpGet:
+            path: {{ .Values.image.livenessProbe.path }}
+            port: {{ .Values.image.containerPort }}

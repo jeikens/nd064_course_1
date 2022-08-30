@@ -1,0 +1,14 @@
+namespace:
+  name: prod
+service:
+  port: 7111
+deploy:
+  replicaCount: 5
+image:
+  resources:
+    requests: 
+      mem: 128Mi
+      cpu: 350m
+    limits: 
+      mem: 256Mi
+      cpu: 500m
