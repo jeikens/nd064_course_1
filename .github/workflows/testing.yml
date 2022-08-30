@@ -14,6 +14,7 @@ jobs:
       - name: Install Requirements
         working-directory: ./project/techtrends
         run: pip install -r requirements.txt
+        run: pip install pytest
       - name: Run Pytest
         working-directory: ./project/techtrends
         run: pytest app.py
