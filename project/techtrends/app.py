@@ -110,8 +110,8 @@ def get_metrics():
 
 def test_health():
     with app.test_client() as test_client:
+        assert exists('database.db')
         resp = test_client.get('/healthz')
-        print(resp.get_json())
         assert resp.status_code == 200
         metric = resp.get_json()
         assert metric is not None
