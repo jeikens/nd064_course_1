@@ -17,6 +17,9 @@ jobs:
       - name: Install pytest
         working-directory: ./project/techtrends
         run: pip install pytest
+      - name: Initialize Database
+        working-directory: ./project/techtrends
+        run: python init_db.py
       - name: Run Pytest
         working-directory: ./project/techtrends
         run: pytest app.py
