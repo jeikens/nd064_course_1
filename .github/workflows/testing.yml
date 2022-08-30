@@ -13,13 +13,11 @@ jobs:
           architecture: 'x64'
       - name: Install Requirements
         working-directory: ./project/techtrends
-        run: pip install -r requirements.txt
-      - name: Install pytest
-        working-directory: ./project/techtrends
-        run: pip install pytest
-      - name: Initialize Database
-        working-directory: ./project/techtrends
-        run: python init_db.py
+        run: |
+          pip install -r requirements.txt
+          pip install pytest
       - name: Run Pytest
         working-directory: ./project/techtrends
-        run: pytest app.py
+        run: |
+          python init_db.py
+          pytest app.py
