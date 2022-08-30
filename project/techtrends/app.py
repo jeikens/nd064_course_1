@@ -92,8 +92,10 @@ def healthcheck():
         return (jsonify({'result': 'ERROR - unhealty', 'message': 'database file not writable'}), 500)
     # try access to the db
     connection = get_db_connection()
-    if connection.execute('SELECT * FROM sqlite_schema where type = "table" and tbl_name = "posts"').fetchone() is None:
-        logging.error('database table "posts" is missing')
+    try:
+        connection.execute('SELECT * FROM posts').fetchone()
+    except sqlite3.sqlite3.OperationalError as e:
+        logging.exception(e)
         return (jsonify({'result': 'ERROR - unhealty', 'message': 'database corrupt'}), 500)
     # Return JSON with http status 200
     return jsonify({'result': 'OK - healty'})
