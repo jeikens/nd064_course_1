@@ -34,7 +34,7 @@ jobs:
       uses: docker/build-push-action@v3
       with:
         context: ./project/
-        file: Dockerfile
+        file: ./Dockerfile
         platforms: linux/amd64
         push: true
         tags: ${{ env.IMAGE_TAG }}
