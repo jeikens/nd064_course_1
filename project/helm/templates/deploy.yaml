@@ -37,8 +37,8 @@ spec:
         livenessProbe:
           httpGet:
             path: {{ .Values.image.livenessProbe.path }}
-            port: {{ .Values.image.containerPort }}
+            port: {{ .Values.image.livenessProbe.port }}
         readinessProbe:
           httpGet:
-            path: {{ .Values.image.livenessProbe.path }}
-            port: {{ .Values.image.containerPort }}
+            path: {{ .Values.image.readinessProbe.path }}
+            port: {{ .Values.image.readinessProbe.port }}

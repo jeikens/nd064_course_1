@@ -6,9 +6,14 @@ from flask import Flask, jsonify, json, render_template, request, url_for, redir
 from werkzeug.exceptions import abort
 from os.path import exists
 from os import access, W_OK
+from sys import stderr, stdout
 
 # configure logging
-logging.basicConfig(format='[%(levelname)s:%(asctime)s:%(name)s] %(message)s', level=logging.DEBUG)
+handlers = [
+    logging.StreamHandler(stdout),
+    logging.StreamHandler(stderr)
+]
+logging.basicConfig(format='[%(levelname)s:%(asctime)s:%(name)s] %(message)s', level=logging.DEBUG, handlers=handlers)
 
 # Function to get a database connection.
 # This function connects to database with the name `database.db`
